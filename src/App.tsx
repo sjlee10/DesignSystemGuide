@@ -553,7 +553,7 @@ function App() {
                 cartItems={cartItems}
             />
 
-            <div className="flex-1 flex flex-col pt-20">
+            <div className="flex-1 flex flex-col pt-[113px]">
                 <Breadcrumbs items={getBreadcrumbs()} />
 
                 <main className="flex-1">

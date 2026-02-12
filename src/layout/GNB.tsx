@@ -104,101 +104,66 @@ export function GNB({ currentView, onViewChange, notifications = 3, cartItems = 
         <header className="fixed top-0 left-0 right-0 z-[100] bg-white border-b border-gray-200">
             {/* Top Common Header (Login/Join/etc - Optional, but keeping simple for now) */}
 
-            {/* Main GNB */}
-            <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-8">
+            {/* Main GNB - Top Row */}
+            <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-8">
                 {/* Logo */}
-                <div
-                    className="flex-shrink-0 cursor-pointer"
-                    onClick={() => onViewChange("dashboard")}
-                >
-                    <img
-                        src="https://img.eduwill.net/Img2/Common/BI/type2/live/logo.svg"
-                        alt="Eduwill"
-                        className="h-8 w-auto"
-                    />
+                <div className="flex items-center gap-8">
+                    <div
+                        className="flex-shrink-0 cursor-pointer"
+                        onClick={() => onViewChange("dashboard")}
+                    >
+                        <img
+                            src="https://img.eduwill.net/Img2/Common/BI/type2/live/logo.svg"
+                            alt="Eduwill"
+                            className="h-6 w-auto"
+                        />
+                    </div>
                 </div>
 
-                {/* Desktop Menu - Centered/Left-aligned next to logo */}
-                <nav className="hidden lg:flex items-center gap-6 flex-1 ml-4 h-full">
-                    {menuItems.map((item) => (
-                        <div
-                            key={item.id}
-                            className="relative group h-full flex items-center"
-                            onMouseEnter={() => setActiveSubMenu(item.id)}
-                            onMouseLeave={() => setActiveSubMenu(null)}
-                        >
-                            <button
-                                onClick={() => handleMenuClick(item.id, item.children.length > 0)}
-                                className={cn(
-                                    "px-2 py-6 text-[17px] font-bold transition-colors relative flex items-center gap-1",
-                                    currentView === item.id || (item.children.length > 0 && activeSubMenu === item.id)
-                                        ? "text-[#FFBE00]"
-                                        : "text-gray-800 hover:text-[#FFBE00]"
-                                )}
-                            >
-                                {item.name}
-                                {/* Active Indicator */}
-                                {(currentView === item.id) && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#FFBE00]" />
-                                )}
-                            </button>
-
-                            {/* 2-depth Dropdown */}
-                            {item.children.length > 0 && (
-                                <div className="absolute top-[60px] left-1/2 -translate-x-1/2 w-36 bg-white shadow-lg border border-gray-100 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pt-2 pb-2 z-50 overflow-hidden">
-                                    {item.children.map((subItem) => (
-                                        <button
-                                            key={subItem.id}
-                                            onClick={() => {
-                                                if (item.id === "course-registration" || item.id === "community") {
-                                                    onViewChange(item.id, { tab: subItem.id })
-                                                } else {
-                                                    onViewChange(item.id)
-                                                }
-                                                setIsMobileMenuOpen(false) // Close mobile menu if open (though this is desktop view, good practice)
-                                            }}
-                                            className="block w-full text-left px-4 py-2.5 text-[14px] text-gray-600 hover:bg-[#FFF8E1] hover:text-[#FFBE00] hover:font-bold transition-colors"
-                                        >
-                                            {subItem.name}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </nav>
+                {/* Center - Search Bar */}
+                <div className="hidden lg:flex flex-1 max-w-xl mx-8">
+                    <div className="relative w-full">
+                        <input
+                            type="text"
+                            placeholder="배우고 싶은 지식을 입력해보세요."
+                            className="w-full h-10 pl-4 pr-10 bg-gray-100 border-none rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#FFBE00] transition-shadow"
+                        />
+                        <button className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FFBE00]">
+                            <Search className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
 
                 {/* Right Utils */}
-                <div className="hidden lg:flex items-center gap-4">
-                    <div className="relative">
-                        <Search className="w-6 h-6 text-gray-800" />
-                    </div>
-
-                    <div className="relative">
-                        <ShoppingCart className="w-6 h-6 text-gray-800" />
+                <div className="hidden lg:flex items-center gap-3">
+                    <button className="p-2 hover:bg-gray-100 rounded-full transition-colors relative">
+                        <ShoppingCart className="w-6 h-6 text-gray-600" />
                         {cartItems > 0 && (
-                            <Badge className="absolute -top-2 -right-2 bg-[#FFBE00] text-black hover:bg-[#E5AB00] h-5 min-w-[20px] px-1 flex items-center justify-center text-[10px]">
+                            <Badge className="absolute top-1 right-1 bg-[#FFBE00] text-black h-4 min-w-[16px] px-1 flex items-center justify-center text-[10px] border-none">
                                 {cartItems}
                             </Badge>
                         )}
-                    </div>
+                    </button>
 
-                    <div className="relative">
-                        <Bell className="w-6 h-6 text-gray-800" />
+                    <button className="p-2 hover:bg-gray-100 rounded-full transition-colors relative">
+                        <Bell className="w-6 h-6 text-gray-600" />
                         {notifications > 0 && (
-                            <Badge className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 h-5 min-w-[20px] px-1 flex items-center justify-center text-[10px]">
+                            <Badge className="absolute top-1 right-1 bg-red-500 text-white h-4 min-w-[16px] px-1 flex items-center justify-center text-[10px] border-none">
                                 {notifications}
                             </Badge>
                         )}
-                    </div>
+                    </button>
 
-                    <div className="w-px h-4 bg-gray-300 mx-2" />
+                    <div className="w-px h-8 bg-gray-200 mx-2" />
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                        <button className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+                            로그인
+                        </button>
                         <Button
-                            className="bg-[#FFBE00] hover:bg-[#E5AB00] text-black font-bold h-10 px-6 rounded-full shadow-sm transition-all hover:shadow-md"
+                            className="bg-[#FFBE00] hover:bg-[#E5AB00] text-black font-bold h-9 px-4 rounded-md shadow-sm transition-all"
                         >
-                            마이페이지
+                            회원가입
                         </Button>
                     </div>
                 </div>
@@ -212,15 +177,76 @@ export function GNB({ currentView, onViewChange, notifications = 3, cartItems = 
                 </button>
             </div>
 
+            {/* Navigation Bar - Bottom Row */}
+            <div className="border-t border-gray-100">
+                <div className="max-w-7xl mx-auto px-4 h-12 hidden lg:flex items-center gap-6">
+                    {/* All Menu Button */}
+                    <button
+                        onClick={() => setIsMobileMenuOpen(true)}
+                        className="flex items-center gap-2 text-gray-700 hover:text-[#FFBE00] font-bold transition-colors"
+                    >
+                        <Menu className="w-5 h-5" />
+                        <span>전체메뉴</span>
+                    </button>
+
+                    <div className="w-px h-4 bg-gray-300" />
+
+                    <nav className="flex items-center gap-1 h-full">
+                        {menuItems.map((item) => (
+                            <div
+                                key={item.id}
+                                className="relative group h-full flex items-center"
+                                onMouseEnter={() => setActiveSubMenu(item.id)}
+                                onMouseLeave={() => setActiveSubMenu(null)}
+                            >
+                                <button
+                                    onClick={() => handleMenuClick(item.id, item.children.length > 0)}
+                                    className={cn(
+                                        "px-4 text-[15px] font-bold transition-colors relative flex items-center gap-1 h-full",
+                                        currentView === item.id || (item.children.length > 0 && activeSubMenu === item.id)
+                                            ? "text-[#FFBE00]"
+                                            : "text-gray-700 hover:text-[#FFBE00]"
+                                    )}
+                                >
+                                    {item.name}
+                                </button>
+
+                                {/* 2-depth Dropdown */}
+                                {item.children.length > 0 && (
+                                    <div className="absolute top-[48px] left-0 w-40 bg-white shadow-lg border border-gray-100 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50 overflow-hidden">
+                                        {item.children.map((subItem) => (
+                                            <button
+                                                key={subItem.id}
+                                                onClick={() => {
+                                                    if (item.id === "course-registration" || item.id === "community") {
+                                                        onViewChange(item.id, { tab: subItem.id })
+                                                    } else {
+                                                        onViewChange(item.id)
+                                                    }
+                                                    setIsMobileMenuOpen(false)
+                                                }}
+                                                className="block w-full text-left px-4 py-2.5 text-[14px] text-gray-600 hover:bg-gray-50 hover:text-[#FFBE00] hover:font-bold transition-colors"
+                                            >
+                                                {subItem.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </nav>
+                </div>
+            </div>
+
             {/* Mobile Drawer Overlay */}
             <div className={cn(
-                "fixed inset-0 z-[200] bg-black/50 transition-opacity duration-300 lg:hidden",
+                "fixed inset-0 z-[200] bg-black/50 transition-opacity duration-300",
                 isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
             )} onClick={() => setIsMobileMenuOpen(false)} />
 
             {/* Mobile Drawer Content */}
             <div className={cn(
-                "fixed top-0 right-0 bottom-0 z-[201] w-80 bg-white shadow-2xl transition-transform duration-300 ease-in-out lg:hidden",
+                "fixed top-0 right-0 bottom-0 z-[201] w-80 bg-white shadow-2xl transition-transform duration-300 ease-in-out",
                 isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
             )}>
                 <div className="h-full flex flex-col">
